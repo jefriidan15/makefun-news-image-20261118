@@ -44,6 +44,11 @@ def run():
     target = Path(out_dir) / "entry.png"
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes(blob)
+
+    # read the written file back and confirm it is byte-identical
+    written = target.read_bytes()
+    if written != blob:
+        return fail("written entry.png differs from the source bytes")
     print(f"wrote {target} ({len(blob)} bytes, sha256 {digest})")
     return 0
 
